@@ -1,0 +1,9 @@
+@import "config";
+.square {
+  background-color: red;
+  width: $squareSize;
+  height: $squareSize;
+  text-align: center;
+  font-size: $squareSize * 0.75;
+  border-color: black;
+}

@@ -1,0 +1,9 @@
+@import "config";
+.gameBoard {
+  background-color: black;
+  margin: auto;
+  width: ($squareSize * 3);
+  border: solid;
+  border-color: gray;
+  border-radius: 5px;
+}
