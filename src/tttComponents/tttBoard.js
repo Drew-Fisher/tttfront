@@ -28,41 +28,42 @@ class TttBoard extends React.Component {
     this.getWinner = this.getWinner.bind(this);
   }
   postMove(row, collum) {
-    if(this.state.winner){
-      
+    if (this.state.winner) {
+    } else {
+      axios
+        .post("/move", {
+          collum: collum,
+          row: row,
+        })
+        .then(this.getBoard)
+        .then(this.getWinner)
+        .then(this.winCheck)
+        .catch((err) => console.log(err));
     }
-    else{
-       axios
-      .post("/move", {
-        collum: collum,
-        row: row,
-      })
-      .then(this.getBoard)
-      .then(this.getWinner)
-      .then(this.winCheck)
-      .catch((err) => console.log(err));
-    }
-   
   }
-  winCheck(){
-    if(!this.getWinner){
+  winCheck() {
+    if (!this.getWinner) {
       this.getTie();
     }
   }
 
-  getTie(){
+  getTie() {
     console.log("in");
     axios
       .get("/isFilled")
-      .then((res) => this.setState({
-        tie: res.data,
-      }))
+      .then((res) =>
+        this.setState({
+          tie: res.data,
+        })
+      )
       .catch((err) => console.log(err));
   }
 
   getBoard() {
     axios
-      .get("http://tttproto2-env.eba-7pm2wcta.us-east-2.elasticbeanstalk.com/api/v1/test")
+      .get(
+        "https://tttproto2-env.eba-7pm2wcta.us-east-2.elasticbeanstalk.com/api/v1/test"
+      )
       .then((res) =>
         this.setState({
           board: res.data,
@@ -83,13 +84,14 @@ class TttBoard extends React.Component {
       )
       .catch((err) => console.log(err));
   }
-  getWinner(){
+  getWinner() {
     axios
       .get("/winner")
-      .then((res) => 
-      this.setState({
-        winner: res.data,
-      }))
+      .then((res) =>
+        this.setState({
+          winner: res.data,
+        })
+      )
       .catch((err) => console.log(err));
   }
   reset() {
@@ -97,7 +99,7 @@ class TttBoard extends React.Component {
       tie: false,
       winner: false,
       turn: "x",
-    })
+    });
     axios
       .get("/reset")
       .then(this.getBoard)
